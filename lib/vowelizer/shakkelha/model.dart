@@ -1,7 +1,7 @@
 import 'package:onnxruntime/onnxruntime.dart';
 import 'package:flutter/services.dart';
 
-import '../model.dart';
+import '../base_model.dart';
 import 'symbols.dart';
 
 String removeDiacritics(String data) {
