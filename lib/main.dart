@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'tts/model.dart';
+import 'vowelizer/model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TTS? _ttsModel;
+  Vowelizer? _vowelizer;
+
   List<int> _counter = [0, 0];
 
   final _textController = TextEditingController();
@@ -43,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double _pitchAddSliderValue = 0;
   double _pitchMulSliderValue = 1;
   double _denoiseSliderValue = 0.005;
+  String _vowelizerId = 'none';
 
   final List<String> textExamples = [
     "اَلسَّلامُ عَلَيكُم يَا صَدِيقِي.",
@@ -61,13 +65,26 @@ class _MyHomePageState extends State<MyHomePage> {
       modelPath: "assets/models/mixer128.onnx",
       vocoderPath: "assets/models/vocos22.onnx",
     );
+    try {
+      _vowelizer = Shakkelha();
+      _vowelizer!.initSessions(
+        modelPath: 'assets/models/shakkelha.onnx',
+      );
+    } catch (ex) {
+      print(ex);
+    }
 
     _textController.text = textExamples[0];
   }
 
   void _incrementCounter() async {
+    String text = _textController.text;
+    if (_vowelizerId != 'none') {
+      text = _vowelizer!.vowelize(text);
+    }
+
     final times = await _ttsModel!.tts(
-      _textController.text,
+      text,
       pace: _paceSliderValue,
       speaker: _speakerSliderValue.round(),
       pmul: _pitchMulSliderValue,
@@ -198,6 +215,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     _denoiseSliderValue = d;
                   });
                 }),
+            SegmentedButtonWidget(
+                selectedOption: _vowelizerId,
+                onSelectionChanged: (d) {
+                  setState(() {
+                    _vowelizerId = d;
+                  });
+                }),
           ],
         ),
       ),
@@ -212,7 +236,36 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     _ttsModel?.release();
+    _vowelizer?.release();
     super.dispose();
+  }
+}
+
+class SegmentedButtonWidget extends StatelessWidget {
+  final String selectedOption;
+  final ValueChanged<String> onSelectionChanged;
+
+  const SegmentedButtonWidget({
+    super.key,
+    required this.selectedOption,
+    required this.onSelectionChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SegmentedButton<String>(
+        segments: const [
+          ButtonSegment(value: 'none', label: Text('No vowelizer')),
+          ButtonSegment(value: 'shakkelha', label: Text('Shakkelha')),
+        ],
+        selected: {selectedOption},
+        onSelectionChanged: (newSelection) {
+          onSelectionChanged(newSelection.first); // Notify parent of the change
+        },
+        multiSelectionEnabled: false, // Ensures only one item is selected
+      ),
+    );
   }
 }
 

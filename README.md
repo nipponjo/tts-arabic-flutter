@@ -7,7 +7,7 @@ The app runs [ONNX](https://github.com/onnx/onnx) models using the package [onnx
 ## Setup
 
 0. (Set up [Flutter](https://flutter.dev/))
-1. Download the onnx models from [Google drive](https://drive.google.com/drive/folders/1cz3TRIgNsjcf0CvYPwjnVPdtWyI1iKVN). By default, `mixer128.onnx` and `vocos22.onnx` are activated.
+1. Download the onnx models from [Google drive](https://drive.google.com/drive/folders/1cz3TRIgNsjcf0CvYPwjnVPdtWyI1iKVN). By default, `mixer128.onnx` and `vocos22.onnx` (and the optional vowelizer `shakkelha.onnx`) are activated.
 2. Put the onnx files into the `assets/models` folder.
 3. (Modify the following lines in `pubspec.yaml` and `main.dart` to use other models than `mixer128.onnx` and `vocos22.onnx`)
 
@@ -16,6 +16,7 @@ in `pubspec.yaml`
 assets:
   - assets/models/mixer128.onnx
   - assets/models/vocos22.onnx
+  - assets/models/shakkelha.onnx
 ```
 in `main.dart`
 ```dart
@@ -23,6 +24,7 @@ _ttsModel!.initSessions(
   modelPath: "assets/models/mixer128.onnx",
   vocoderPath: "assets/models/vocos22.onnx",
 );
+
 ```
 
 ## Supported models:
@@ -36,7 +38,7 @@ _ttsModel!.initSessions(
 ## Preview:
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/fc2484ec-edf7-4637-b01e-cb5563b643e0" width="50%"></img>
+  <img src="https://github.com/user-attachments/assets/42ab977c-8456-4f0d-a37c-a31ce2b559bb" width="50%"></img>
 </div>
 
 

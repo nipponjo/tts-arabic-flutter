@@ -79,7 +79,7 @@ class TTS {
     // String ara = words[5];
     // print(transliterate(text));
 
-    List<List<int>> tokenIds = [arabToTokenIds(text)];
+    final List<List<int>> tokenIds = [arabToTokenIds(text)];
     final inputOrt = OrtValueTensor.createTensorWithDataList(tokenIds);
     final OrtValueTensor paceOrt =
         OrtValueTensor.createTensorWithDataList(Float32List.fromList([pace]));
@@ -119,15 +119,16 @@ class TTS {
     stopwatch.reset();
 
     // var outFloats2 = outputs2[0]?.value;
-    List<List<double>> waveOut = waveOutOrt[0]?.value as List<List<double>>;
+    final List<List<double>> waveOut =
+        waveOutOrt[0]?.value as List<List<double>>;
 
     // print(outFloats2);
     // printShape(waveOut);
 
-    List<int> pcmWave = convertToPCM16(waveOut[0]);
+    final List<int> pcmWave = convertToPCM16(waveOut[0]);
 
     await _audioPlayer.stop();
-    File audioFile = await writeToWavFile(pcmWave, sampleRate, 1);
+    final File audioFile = await writeToWavFile(pcmWave, sampleRate, 1);
     _audioPlayer.setFilePath(audioFile.path);
     _audioPlayer.play();
 
