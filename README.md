@@ -38,7 +38,7 @@ _ttsModel!.initSessions(
 ## Preview:
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/42ab977c-8456-4f0d-a37c-a31ce2b559bb" width="50%"></img>
+  <img src="https://github.com/user-attachments/assets/0b3cb077-3e0d-4303-818f-778d366dc4b2" width="50%"></img>
 </div>
 
 
