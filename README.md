@@ -4,6 +4,8 @@ A basic [Flutter](https://flutter.dev/) demo app for Arabic TTS with models from
 
 The app runs [ONNX](https://github.com/onnx/onnx) models using the package [onnxruntime_flutter](https://github.com/gtbluesky/onnxruntime_flutter).
 
+Audio samples can be found [here](https://nipponjo.github.io/tts-arabic-speakers).
+
 ## Setup
 
 0. (Set up [Flutter](https://flutter.dev/))
